@@ -20,14 +20,20 @@ int main(int argc, char* argv[]) {
     }
     //2. Check that the file exists/can be opened.
     if (!std::filesystem::exists(argv[1])){
-        std::cerr << "File does not exist:" << argv[1] << "\n";
+        std::cerr << "File does not exist: " << argv[1] << "\n";
         return 1;
     }
+    std::cout << "File exist: " << argv[1] << "\n";
     
     int height, width, channel;
-    std::cout << "File exist:" << argv[1] << "\n";
     unsigned char *image = stbi_load(argv[1], &width, &height, &channel, 0);
+    if (image == nullptr){
+        std::cerr << "Invalid image\n";
+        return 1;
+    }
+    std::cout << "File loaded successfully\n";
     std::cout << "Height: " << height << "\n";
     std::cout << "Width: " << width << "\n";
+    stbi_image_free(image);
     return 0;
 }
